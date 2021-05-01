@@ -1,6 +1,6 @@
 {
   "name": "finall.io-dashboard",
-  "version": "1.-.0",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@amcharts/amcharts3-react": "^3.1.0",
@@ -91,5 +91,6 @@
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "react-app-rewired": "^2.1.5"
-  }
+  },
+  "proxy":"https://dev-finall.herokuapp.com"
 }
