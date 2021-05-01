@@ -9,14 +9,17 @@ import CustomScrollbars from 'util/CustomScrollbars';
 import IntlMessages from '../../util/IntlMessages';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import PrivateRoutesConfig from '../../routes/RoutesConfig';
 import React from 'react';
 import SidebarLogo from './SidebarLogo';
 import UserProfile from './UserProfile';
+import { getAllowedRoutes } from '../../util/getAllowedRoutes';
 import { useSelector } from 'react-redux';
 
 const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
   let { navStyle, themeType } = useSelector(({ settings }) => settings);
   let { pathname } = useSelector(({ common }) => common);
+  const { authUser } = useSelector(({ auth }) => auth);
 
   const getNoHeaderClass = (navStyle) => {
     if (
@@ -50,30 +53,20 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
             mode="inline"
           >
-            <Menu.Item key="dashboard">
-              <Link to="/dashboard">
-                <i className="icon icon-widgets" />
-                <span>
-                  <IntlMessages id="sidebar.dashboard" />
-                </span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="user-list">
-              <Link to="/user-list">
-                <i className="icon icon-contacts" />
-                <span>
-                  <IntlMessages id="sidebar.user-list" />
-                </span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="setting">
-              <Link to="/setting">
-                <i className="icon icon-setting" />
-                <span>
-                  <IntlMessages id="sidebar.setting" />
-                </span>
-              </Link>
-            </Menu.Item>
+            {getAllowedRoutes(PrivateRoutesConfig, [authUser.role]).map(
+              ({ path, icon, langKey }) => {
+                return (
+                  <Menu.Item key={path}>
+                    <Link to={`/${path}`}>
+                      <i className={`icon icon-${icon || 'widgets'}`} />
+                      <span>
+                        <IntlMessages id={langKey} />
+                      </span>
+                    </Link>
+                  </Menu.Item>
+                );
+              }
+            )}
           </Menu>
         </CustomScrollbars>
       </div>

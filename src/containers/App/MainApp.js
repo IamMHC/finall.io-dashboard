@@ -19,10 +19,12 @@ import HorizontalDefault from '../Topbar/HorizontalDefault/index';
 import InsideHeader from '../Topbar/InsideHeader/index';
 import { Layout } from 'antd';
 import NoHeaderNotification from '../Topbar/NoHeaderNotification/index';
+import PrivateRoutesConfig from '../../routes/RoutesConfig';
 import React from 'react';
 import Sidebar from '../Sidebar/index';
 import Topbar from '../Topbar/index';
 import { footerText } from 'util/config';
+import { getAllowedRoutes } from '../../util/getAllowedRoutes';
 import { useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -31,6 +33,7 @@ const { Content, Footer } = Layout;
 const MainApp = () => {
   const { navStyle } = useSelector(({ settings }) => settings);
   const match = useRouteMatch();
+  const { authUser } = useSelector(({ auth }) => auth);
 
   const getContainerClass = (navStyle) => {
     switch (navStyle) {
@@ -83,7 +86,10 @@ const MainApp = () => {
         <Content
           className={`gx-layout-content ${getContainerClass(navStyle)} `}
         >
-          <App match={match} />
+          <App
+            routes={getAllowedRoutes(PrivateRoutesConfig, [authUser.role])}
+            match={match}
+          />
           <Footer>
             <div className="gx-layout-footer-content">{footerText}</div>
           </Footer>

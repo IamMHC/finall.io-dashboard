@@ -7,6 +7,8 @@ export const PROFILE_QUERY = gql`
       lastName
       username
       email
+      role
+      themePermission
     }
   }
 `;

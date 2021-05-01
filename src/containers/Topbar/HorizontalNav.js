@@ -8,7 +8,9 @@ import {
 import IntlMessages from '../../util/IntlMessages';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import PrivateRoutesConfig from '../../routes/RoutesConfig';
 import React from 'react';
+import { getAllowedRoutes } from '../../util/getAllowedRoutes';
 import { useSelector } from 'react-redux';
 
 const SubMenu = Menu.SubMenu;
@@ -16,6 +18,7 @@ const SubMenu = Menu.SubMenu;
 const HorizontalNav = () => {
   const navStyle = useSelector(({ settings }) => settings.navStyle);
   const { pathname } = useSelector(({ common }) => common);
+  const { authUser } = useSelector(({ auth }) => auth);
 
   const getNavStyleSubMenuClass = (navStyle) => {
     switch (navStyle) {
@@ -45,24 +48,18 @@ const HorizontalNav = () => {
         key="main"
         title={<IntlMessages id="sidebar.main" />}
       >
-        <Menu.Item key="dashboard">
-          <Link to="/dashboard">
-            <i className="icon icon-widgets" />
-            <IntlMessages id="sidebar.dashboard" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="user-list">
-          <Link to="/user-list">
-            <i className="icon icon-contacts" />
-            <IntlMessages id="sidebar.user-list" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="setting">
-          <Link to="/setting">
-            <i className="icon icon-setting" />
-            <IntlMessages id="sidebar.setting" />
-          </Link>
-        </Menu.Item>
+        {getAllowedRoutes(PrivateRoutesConfig, [authUser.role]).map(
+          ({ path, icon, langKey }) => {
+            return (
+              <Menu.Item key={path}>
+                <Link to={`/${path}`}>
+                  <i className={`icon icon-${icon || 'widgets'}`} />
+                  <IntlMessages id={langKey} />
+                </Link>
+              </Menu.Item>
+            );
+          }
+        )}
       </SubMenu>
     </Menu>
   );

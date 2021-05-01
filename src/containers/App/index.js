@@ -48,23 +48,25 @@ const RestrictedRoute = ({
   location,
   authUser,
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      authUser ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/signin',
-            state: { from: location },
-          }}
-        />
-      )
-    }
-  />
-);
+}) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return authUser ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/signin',
+              state: { from: location },
+            }}
+          />
+        );
+      }}
+    />
+  );
+};
 
 const App = () => {
   const dispatch = useDispatch();

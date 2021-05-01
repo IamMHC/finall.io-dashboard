@@ -90,9 +90,7 @@ const CustomizerSystem = () => {
   // }, []);
 
   const toggleCustomizer = () => {
-    setIsCustomizerOpened((previousState) => ({
-      isCustomizerOpened: !previousState.isCustomizerOpened,
-    }));
+    setIsCustomizerOpened(!isCustomizerOpened);
   };
 
   const onThemeTypeChange = (e) => {

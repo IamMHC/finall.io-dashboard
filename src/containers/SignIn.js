@@ -32,8 +32,9 @@ const SignIn = (props) => {
 
   useEffect(() => {
     if (error) {
+      dispatch(fetchSuccess());
       dispatch({ type: UPDATE_LOAD_USER, payload: false });
-      console.log('Error****:', error.message);
+      message.error(error.message);
     }
   }, [dispatch, error]);
 

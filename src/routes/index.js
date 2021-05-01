@@ -3,22 +3,29 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import asyncComponent from 'util/asyncComponent';
 
-const App = ({ match }) => (
+const App = ({ routes, match }) => (
   <div className="gx-main-content-wrapper">
     <Switch>
-      <Route
-        path={`${match.url}dashboard`}
-        component={asyncComponent(() => import('./DashboardPage'))}
-      />
-      <Route
-        path={`${match.url}setting`}
-        component={asyncComponent(() => import('./SettingPage'))}
-      />
+      {routes.map((route) => {
+        const {
+          path,
+          component: Component,
+          children,
+          title,
+          permission,
+          ...rest
+        } = route;
+        return (
+          <Route
+            {...rest}
+            key={path}
+            path={`${match.url}${path}`}
+            component={Component}
+          ></Route>
+        );
+      })}
 
-      <Route
-        path={`${match.url}user-list`}
-        component={asyncComponent(() => import('./UsersPage'))}
-      />
+      <Route component={asyncComponent(() => import('./404'))} />
     </Switch>
   </div>
 );
