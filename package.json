@@ -92,5 +92,5 @@
     "customize-cra": "^0.9.1",
     "react-app-rewired": "^2.1.5"
   },
-  "proxy":"https://dev-finall.herokuapp.com"
+  "proxy":"http://api.finall.io"
 }
