@@ -110,11 +110,11 @@ const SignIn = (props) => {
               <Form.Item
                 initialValue=""
                 rules={[
-                  { required: true, message: 'The input is not valid E-mail!' },
+                  { required: true, message: 'This is a required field' },
                 ]}
                 name="username"
               >
-                <Input placeholder="Email" />
+                <Input placeholder="Email or Username" />
               </Form.Item>
               <Form.Item
                 initialValue=""
@@ -132,9 +132,9 @@ const SignIn = (props) => {
               <Space direction="vertical" size="large">
                 <Link
                   className="gx-login-form-forgot"
-                  to="/custom-views/user-auth/forgot-password"
+                  to="/login/forgot-password"
                 >
-                  Forgot password
+                  <IntlMessages id="app.userAuth.forgotPassword" />
                 </Link>
                 <Form.Item>
                   <Button type="primary" className="gx-mb-0" htmlType="submit">

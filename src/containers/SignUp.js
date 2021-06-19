@@ -229,7 +229,7 @@ const SignUp = (props) => {
                 <span>
                   <IntlMessages id="app.userAuth.or" />
                 </span>{' '}
-                <Link to="/signin">
+                <Link to="/login">
                   <IntlMessages id="app.userAuth.signIn" />
                 </Link>
               </FormItem>

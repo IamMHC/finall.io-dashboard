@@ -30,6 +30,7 @@
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
+    "query-string": "^4.3.4",
     "react": "^17.0.1",
     "react-big-calendar": "^0.30.0",
     "react-bootstrap-sweetalert": "^5.2.0",
@@ -88,6 +89,7 @@
     ]
   },
   "devDependencies": {
+    "@types/query-string": "^6.3.0",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "react-app-rewired": "^2.1.5"

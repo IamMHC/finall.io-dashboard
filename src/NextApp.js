@@ -13,7 +13,7 @@ import React from 'react';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://api.finall.io/graphql',
+  uri: process.env.REACT_APP_API_URL,
 });
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists

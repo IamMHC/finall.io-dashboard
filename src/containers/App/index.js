@@ -34,9 +34,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import AppLocale from 'lngProvider';
 import CircularProgress from '../../components/CircularProgress';
 import { ConfigProvider } from 'antd';
+import ForgotPassword from '../ForgotPassword';
 import { IntlProvider } from 'react-intl';
 import MainApp from './MainApp';
 import { PROFILE_QUERY } from '../../gql';
+import ResetPassword from '../ResetPassword';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
 import URLSearchParams from 'url-search-params';
@@ -58,7 +60,7 @@ const RestrictedRoute = ({
         ) : (
           <Redirect
             to={{
-              pathname: '/signin',
+              pathname: '/login',
               state: { from: location },
             }}
           />
@@ -167,8 +169,17 @@ const App = () => {
   useEffect(() => {
     if (location.pathname === '/') {
       if (authUser === null) {
-        history.push('/signin');
-      } else if (['', '/', '/signin', '/signup'].includes(initURL)) {
+        history.push('/login');
+      } else if (
+        [
+          '',
+          '/',
+          '/login',
+          '/signup',
+          '/login/forgot-password',
+          '/login/reset-password',
+        ].includes(initURL)
+      ) {
         history.push('/dashboard');
       } else {
         history.push(initURL);
@@ -187,8 +198,14 @@ const App = () => {
         messages={currentAppLocale.messages}
       >
         <Switch>
-          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/login" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
+          <Route
+            exact
+            path="/login/forgot-password"
+            component={ForgotPassword}
+          />
+          <Route exact path="/login/reset-password" component={ResetPassword} />
           <RestrictedRoute
             path={`${match.url}`}
             authUser={authUser}
