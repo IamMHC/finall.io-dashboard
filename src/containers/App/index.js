@@ -42,6 +42,7 @@ import ResetPassword from '../ResetPassword';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
 import URLSearchParams from 'url-search-params';
+import VerifyAccount from '../VerifyAccount';
 import { setInitUrl } from 'appRedux/actions/Auth';
 import { useQuery } from '@apollo/client';
 
@@ -110,7 +111,11 @@ const App = () => {
 
   useEffect(() => {
     if (initURL === '') {
-      dispatch(setInitUrl(location.pathname));
+      if (location.pathname === '/account/verify') {
+        dispatch(setInitUrl('/login'));
+      } else {
+        dispatch(setInitUrl(location.pathname + location.search));
+      }
     }
     const params = new URLSearchParams(location.search);
 
@@ -168,6 +173,10 @@ const App = () => {
 
   useEffect(() => {
     if (location.pathname === '/') {
+      console.log(
+        '🚀 ~ file: index.js ~ line 187 ~ useEffect ~ initURL',
+        initURL
+      );
       if (authUser === null) {
         history.push('/login');
       } else if (
@@ -206,6 +215,7 @@ const App = () => {
             component={ForgotPassword}
           />
           <Route exact path="/login/reset-password" component={ResetPassword} />
+          <Route exact path="/account/verify" component={VerifyAccount} />
           <RestrictedRoute
             path={`${match.url}`}
             authUser={authUser}

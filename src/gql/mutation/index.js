@@ -3,3 +3,4 @@ export * from './signup';
 export * from './removeSession';
 export * from './forgotPassword';
 export * from './resetPassword';
+export * from './verifyEmailAddress';

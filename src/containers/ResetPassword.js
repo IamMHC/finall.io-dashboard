@@ -1,14 +1,16 @@
 import { Button, Form, Input, Space, message } from 'antd';
+import { FETCH_START, FETCH_SUCCESS } from '../constants/ActionTypes';
 import React, { useEffect, useState } from 'react';
 import { fetchStart, fetchSuccess } from '../appRedux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMutation, useQuery } from '@apollo/client';
 
 import InfoView from 'components/InfoView';
 import IntlMessages from 'util/IntlMessages';
 import { Link } from 'react-router-dom';
 import { RESET_PASSWORD_MUTATION } from '../gql';
+import { VERIFY_VERFICATION_CODE_QUERY } from '../gql';
 import queryString from 'query-string';
-import { useMutation } from '@apollo/client';
 
 const ResetPassword = (props) => {
   const dispatch = useDispatch();
@@ -17,6 +19,29 @@ const ResetPassword = (props) => {
   const [queryData, setQueryData] = useState({ id: null, code: null });
   const authUser = useSelector(({ auth }) => auth.authUser);
   const [resetPassword] = useMutation(RESET_PASSWORD_MUTATION);
+
+  const { error, loading } = useQuery(VERIFY_VERFICATION_CODE_QUERY, {
+    variables: {
+      ...queryData,
+      type: 'FORGOT',
+    },
+    skip: !Boolean(queryData.id),
+  });
+
+  useEffect(() => {
+    if (loading) {
+      dispatch({ type: FETCH_START });
+    } else {
+      dispatch({ type: FETCH_SUCCESS });
+    }
+  }, [dispatch, loading]);
+
+  useEffect(() => {
+    if (error) {
+      props.history.push('/login');
+      return message.error(error.message);
+    }
+  }, [dispatch, error, props.history]);
 
   const onFinish = async (values) => {
     dispatch(fetchStart());

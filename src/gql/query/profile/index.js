@@ -9,6 +9,7 @@ export const PROFILE_QUERY = gql`
       email
       role
       themePermission
+      isEmailVerified
     }
   }
 `;

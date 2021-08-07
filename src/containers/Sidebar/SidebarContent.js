@@ -54,17 +54,20 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             mode="inline"
           >
             {getAllowedRoutes(PrivateRoutesConfig, [authUser.role]).map(
-              ({ path, icon, langKey }) => {
-                return (
-                  <Menu.Item key={path}>
-                    <Link to={`/${path}`}>
-                      <i className={`icon icon-${icon || 'widgets'}`} />
-                      <span>
-                        <IntlMessages id={langKey} />
-                      </span>
-                    </Link>
-                  </Menu.Item>
-                );
+              ({ path, icon, langKey, show = true }) => {
+                if (show) {
+                  return (
+                    <Menu.Item key={path}>
+                      <Link to={`/${path}`}>
+                        <i className={`icon icon-${icon || 'widgets'}`} />
+                        <span>
+                          <IntlMessages id={langKey} />
+                        </span>
+                      </Link>
+                    </Menu.Item>
+                  );
+                }
+                return null;
               }
             )}
           </Menu>
